@@ -79,7 +79,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     checkAuth(); // Run immediately
-  }, []); // Empty deps = run once on mount
+  }, [[location.pathname, location.state?.from?.pathname]]); // Empty deps = run once on mount
 
   // Show loading spinner while checking auth
   if (loading) {
