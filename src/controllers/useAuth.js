@@ -1,7 +1,7 @@
 // controllers/useAuth.js
 import { useState } from 'react';
 import { loginUser, signupUser } from '../models/auth';
-import { Navigate, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 
 
