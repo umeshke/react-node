@@ -4,17 +4,9 @@ import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 function Dashboard() {
-  const { user, logout, axiosPrivate } = useAuth();
+  const { axiosPrivate } = useAuth();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
-
-  const [pagination, setPagination] = useState({
-    page: 1,
-    pages: 1,
-    total: 0
-  });
-  const [pageSize] = useState(10);
 
   // Fetch users list on mount
   useEffect(() => {
