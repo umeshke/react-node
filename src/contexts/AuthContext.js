@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
-import { Navigate, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 const AuthContext = createContext();
 
@@ -70,7 +70,6 @@ export const AuthProvider = ({ children }) => {
           window.location.href = from; // Full reload ensures clean state
         }
       } catch (error) {
-        console.log('❌ No valid session');
         if (error.response?.status !== 401) console.error(error);
         setLoading(false);
         setUser(null);
