@@ -28,6 +28,9 @@ export const AuthProvider = ({ children }) => {
 
   const location = useLocation();
 
+  const currentPath = location.pathname;
+  const redirectPath = location.state?.from?.pathname;
+
   const login = async (credentials) => {
     setLoading(true); // Add this
     try {
@@ -65,8 +68,8 @@ export const AuthProvider = ({ children }) => {
         console.log('✅ Auth check success:', data.user);
         setUser(data.user);
         
-        if (data.user && location.pathname === '/login') {
-          const from = location.state?.from?.pathname || '/dashboard';
+        if (data.user && currentPath === '/login') {
+          const from = redirectPath || '/dashboard';
           window.location.href = from; // Full reload ensures clean state
         }
       } catch (error) {
@@ -79,7 +82,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     checkAuth(); // Run immediately
-  }, [[location.pathname, location.state?.from?.pathname]]); // Empty deps = run once on mount
+  }, [[currentPath, redirectPath]]); // Empty deps = run once on mount
 
   // Show loading spinner while checking auth
   if (loading) {
