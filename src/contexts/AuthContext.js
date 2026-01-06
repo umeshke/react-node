@@ -59,27 +59,33 @@ export const AuthProvider = ({ children }) => {
     document.cookie = 'jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
   };
 
-  // ✅ FIXED useEffect - Check auth ONCE on mount
+// ✅ FIXED: Single array, extracted variables, and proper dependency handling
   useEffect(() => {
     console.log('useEffect inside - checking auth');
+    
     const checkAuth = async () => {
       try {
         const { data } = await axiosPrivate.get('/api/protected');
         console.log('✅ Auth check success:', data.user);
         setUser(data.user);
         
+        // If user is already logged in and tries to access /login, redirect them
         if (data.user && currentPath === '/login') {
           const from = redirectPath || '/dashboard';
-          window.location.href = from; // Full reload ensures clean state
+          window.location.href = from; 
         }
       } catch (error) {
         if (error.response?.status !== 401) console.error(error);
-        setLoading(false);
         setUser(null);
       } finally {
-        setLoading(false); // Always set loading false
+        setLoading(false); 
       }
     };
+
+    checkAuth();
+    
+    // Line 85: Use a single array with the variables you extracted above
+  }, [currentPath, redirectPath]);
 
     checkAuth(); // Run immediately
   }, [[currentPath, redirectPath]]); // Empty deps = run once on mount
