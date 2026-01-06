@@ -87,9 +87,6 @@ export const AuthProvider = ({ children }) => {
     // Line 85: Use a single array with the variables you extracted above
   }, [currentPath, redirectPath]);
 
-    checkAuth(); // Run immediately
-  }, [[currentPath, redirectPath]]); // Empty deps = run once on mount
-
   // Show loading spinner while checking auth
   if (loading) {
     return (
